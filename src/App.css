@@ -25,10 +25,23 @@
   padding: 1rem 0 2rem;
   background-color: white;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
 .children-list {
   overflow-y: auto;
   width: 100%;
   max-width: 360px;
+}
+
+.share-button {
+  display: flex;
+  gap: 1rem;
+}
+
+.share-button img {
+  height: 1.5rem;
 }

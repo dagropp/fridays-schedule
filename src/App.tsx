@@ -7,6 +7,7 @@ import {
 } from "./api";
 import {
   AddButton,
+  AppFooter,
   ListItem,
   ListTitle,
   MayaCard,
@@ -16,7 +17,6 @@ import { AppContext, ChildId } from "./context";
 import { storage } from "./storage";
 import {
   Alert,
-  Button,
   CircularProgress,
   List,
   Snackbar,
@@ -46,10 +46,6 @@ function App() {
     },
     []
   );
-
-  const resetChild = useCallback(() => {
-    setChildId(null);
-  }, []);
 
   const fetchChildren = useCallback(async () => {
     try {
@@ -138,15 +134,7 @@ function App() {
               />
             ))}
           </List>
-          {childId && (
-            <div className="bottom-container">
-              <Button variant="outlined" color="secondary" onClick={resetChild}>
-                {maya?.id === childId
-                  ? "אני לא מאיה הגננת"
-                  : `אנחנו לא ה${childName}`}
-              </Button>
-            </div>
-          )}
+          <AppFooter maya={maya} childName={childName} scheduled={scheduled} />
         </div>
       )}
 

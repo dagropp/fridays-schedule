@@ -1,8 +1,8 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import { isRelevantDate } from "../../api";
 import { ReactElement } from "react";
 import { MayaCardProps } from "./types";
 import { useAppContext } from "../../context";
+import { getMayaResponse } from "../../general";
 
 export function MayaCard({ data }: MayaCardProps): ReactElement | null {
   const { childId } = useAppContext();
@@ -13,11 +13,7 @@ export function MayaCard({ data }: MayaCardProps): ReactElement | null {
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           הודעה ממאיה
         </Typography>
-        <Typography>
-          {isRelevantDate(data?.schedule)
-            ? "איזה כיף! נתראה בשישי 🥖🥖🥖"
-            : "כרגע לא אפתח את הגן... 😓"}
-        </Typography>
+        <Typography>{getMayaResponse(data?.schedule)}</Typography>
       </CardContent>
     </Card>
   );
