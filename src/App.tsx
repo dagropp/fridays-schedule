@@ -101,7 +101,7 @@ function App() {
 
   return (
     <AppContext.Provider value={{ childId, setChildId }}>
-      {loading ? (
+      {loading || !childId ? (
         <CircularProgress size={60} />
       ) : (
         <div className="main-wrapper">
