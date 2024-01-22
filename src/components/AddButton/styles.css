@@ -1,0 +1,10 @@
+.add-card {
+  margin-bottom: 1em;
+}
+
+.add-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}

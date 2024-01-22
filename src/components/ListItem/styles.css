@@ -1,0 +1,9 @@
+.child-list-item-image {
+  height: 1.5em;
+  margin-left: 1em;
+}
+
+.child-list-item-text {
+  direction: rtl;
+  text-align: right;
+}
