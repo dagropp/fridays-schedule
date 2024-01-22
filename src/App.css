@@ -5,21 +5,29 @@
   text-align: center;
 }
 
+.main-wrapper {
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .top-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  position: sticky;
-  top: 0;
-  z-index: 2;
   background-color: white;
   padding: 2rem 0 0;
+  flex: 1;
 }
 
 .bottom-container {
-  position: sticky;
   padding: 1rem 0 2rem;
-  bottom: 0;
-  z-index: 2;
   background-color: white;
+  flex: 1;
+}
+
+.children-list {
+  overflow-y: auto;
+  width: 100%;
+  max-width: 360px;
 }

@@ -98,7 +98,7 @@ function App() {
       {loading ? (
         <CircularProgress size={60} />
       ) : (
-        <Box display="flex" flexDirection="column">
+        <div className="main-wrapper">
           <div className="top-container">
             {childName && (
               <Typography variant="h6">שלום ל{childName} 👋</Typography>
@@ -117,7 +117,7 @@ function App() {
               <Typography variant="body1">מי נרשמו?</Typography>
             )}
           </div>
-          <List sx={{ width: "100%", maxWidth: 360 }}>
+          <List className="children-list">
             {scheduled.map((child) => (
               <ListItem
                 key={child.id}
@@ -131,11 +131,11 @@ function App() {
               <Button variant="outlined" color="secondary" onClick={resetChild}>
                 {maya?.id === childId
                   ? "אני לא מאיה הגננת"
-                  : `אנחנו לא ${childName}`}
+                  : `אנחנו לא ה${childName}`}
               </Button>
             </div>
           )}
-        </Box>
+        </div>
       )}
 
       <ParentDialog data={data} />
