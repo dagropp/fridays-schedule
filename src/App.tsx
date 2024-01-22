@@ -63,18 +63,24 @@ function App() {
     else storage.reset();
   }, [childId]);
 
-  const [scheduled, [unscheduled]] = useMemo(
+  const [scheduled, [unscheduled], [mine]] = useMemo(
     () =>
       data
         .filter((child) => child.id !== -1)
         .reduce(
-          (prev: [ChildrenResponse[], ChildrenResponse[]], child) => {
-            if (isRelevantDate(child.schedule)) prev[0].push(child);
-            else if (childId === child.id) prev[1].push(child);
-            // else prev[1].push(curr);
+          (
+            prev: [ChildrenResponse[], ChildrenResponse[], ChildrenResponse[]],
+            child
+          ) => {
+            if (isRelevantDate(child.schedule)) {
+              const index = childId === child.id ? 2 : 0;
+              prev[index].push(child);
+            } else if (childId === child.id) {
+              prev[1].push(child);
+            }
             return prev;
           },
-          [[], []]
+          [[], [], []]
         ),
     [childId, data]
   );
@@ -126,6 +132,13 @@ function App() {
             )}
           </div>
           <List className="children-list">
+            {mine && (
+              <ListItem
+                key={mine.id}
+                data={mine}
+                onUpdate={handleUpdateSchedule}
+              />
+            )}
             {scheduled.map((child) => (
               <ListItem
                 key={child.id}
