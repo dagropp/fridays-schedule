@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useMemo, useState } from "react";
+import { ReactElement, useCallback, useEffect, useMemo, useState } from "react";
 import { AddButtonProps } from "./types";
 import {
   Button,
@@ -10,7 +10,11 @@ import {
 import { Gender, isRelevantDate, toggleSchedule } from "../../api";
 import "./styles.css";
 
-export function AddButton({ data, onUpdate }: AddButtonProps): ReactElement {
+export function AddButton({
+  data,
+  onUpdate,
+  onDeny,
+}: AddButtonProps): ReactElement | null {
   const [denied, setDenied] = useState(false);
 
   const toggle = useCallback(async () => {
@@ -22,7 +26,10 @@ export function AddButton({ data, onUpdate }: AddButtonProps): ReactElement {
     }
   }, [data, onUpdate]);
 
-  const hideDialog = useCallback(() => setDenied(true), []);
+  const hideDialog = useCallback(() => {
+    onDeny();
+    setDenied(true);
+  }, [onDeny]);
 
   const isMaya = useMemo(() => data.id === -1, [data.id]);
 
@@ -31,19 +38,22 @@ export function AddButton({ data, onUpdate }: AddButtonProps): ReactElement {
     [data.schedule]
   );
 
+  useEffect(() => {
+    return () => setDenied(false);
+  }, []);
+
   const message = useMemo(() => {
     if (isMaya) {
-      if (isScheduled) return "איזה כיף! נתראה בשישי 🥖🥖🥖";
-      return denied ? "בטוחה?" : "תפתחי את הגן ביום שישי?";
-    } else if (denied) {
-      return "בטוחים?";
+      return isScheduled
+        ? "איזה כיף! נתראה בשישי 🥖🥖🥖"
+        : "תפתחי את הגן ביום שישי?";
     } else if (data.gender === Gender.male) {
       return `${data.name} יבוא ביום שישי?`;
     }
     return `${data.name} תבוא ביום שישי?`;
-  }, [data.gender, data.name, denied, isMaya, isScheduled]);
+  }, [data.gender, data.name, isMaya, isScheduled]);
 
-  return (
+  return denied ? null : (
     <Card raised className="add-card">
       <CardContent>
         <Typography>{message}</Typography>
@@ -54,14 +64,14 @@ export function AddButton({ data, onUpdate }: AddButtonProps): ReactElement {
             בסוף לא אוכל לפתוח את הגן
           </Button>
         )}
-        {!denied && !isScheduled && (
+        {!isScheduled && (
           <Button onClick={hideDialog} variant="outlined">
             לא
           </Button>
         )}
         {!isScheduled && (
           <Button variant="contained" onClick={toggle}>
-            {denied ? "טוב בסדר" : "כן"}
+            כן
           </Button>
         )}
       </CardActions>

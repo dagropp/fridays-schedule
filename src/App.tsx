@@ -90,6 +90,11 @@ function App() {
     return "";
   }, [childId, data]);
 
+  const onDeny = useCallback(
+    () => setErrorMessage("לא נורא, אולי שבוע הבא... 😔"),
+    []
+  );
+
   const maya = useMemo(() => data.find((item) => item.id === -1), [data]);
 
   return (
@@ -105,10 +110,18 @@ function App() {
             <ListTitle scheduled={scheduled} />
             <MayaCard data={maya} />
             {unscheduled && (
-              <AddButton data={unscheduled} onUpdate={handleUpdateSchedule} />
+              <AddButton
+                data={unscheduled}
+                onUpdate={handleUpdateSchedule}
+                onDeny={onDeny}
+              />
             )}
             {childId === -1 ? (
-              <AddButton data={maya!} onUpdate={handleUpdateSchedule} />
+              <AddButton
+                data={maya!}
+                onUpdate={handleUpdateSchedule}
+                onDeny={onDeny}
+              />
             ) : (
               <></>
             )}
