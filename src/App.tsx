@@ -23,7 +23,6 @@ import {
   Typography,
 } from "@mui/material";
 import "./App.css";
-import { usePolling } from "./hooks";
 
 function App() {
   const [data, setData] = useState<ChildrenResponse[]>([]);
@@ -56,7 +55,9 @@ function App() {
     }
   }, []);
 
-  usePolling(fetchChildren);
+  useEffect(() => {
+    fetchChildren();
+  }, []);
 
   useEffect(() => {
     if (childId) storage.set(childId);
