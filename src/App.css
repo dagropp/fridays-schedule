@@ -45,3 +45,14 @@
 .share-button img {
   height: 1.5rem;
 }
+
+.list-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.refresh-icon.loading {
+  animation: spin 0.5s infinite linear;
+}

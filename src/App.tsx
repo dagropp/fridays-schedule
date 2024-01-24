@@ -18,17 +18,22 @@ import { storage } from "./storage";
 import {
   Alert,
   CircularProgress,
+  IconButton,
   List,
   Snackbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import "./App.css";
+import { SyncOutlined } from "@mui/icons-material";
+import { clsx } from "./general";
 
 function App() {
   const [data, setData] = useState<ChildrenResponse[]>([]);
   const [childId, setChildId] = useState<ChildId>(storage.get());
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [innerLoading, setInnerLoading] = useState(false);
 
   const handleUpdateSchedule = useCallback(
     (id: number, errorMessage?: string) => {
@@ -47,11 +52,13 @@ function App() {
   );
 
   const fetchChildren = useCallback(async () => {
+    setInnerLoading(true);
     try {
       const response = await getChildren();
       setData(response);
     } finally {
       setLoading(false);
+      setInnerLoading(false);
     }
   }, []);
 
@@ -129,7 +136,24 @@ function App() {
               <></>
             )}
             {scheduled.length > 0 && (
-              <Typography variant="body1">מי נרשמו?</Typography>
+              <Typography variant="body1" className="list-subtitle">
+                מי נרשמו?
+                <Tooltip title="עדכון הרשימה">
+                  <IconButton
+                    size="small"
+                    color="primary"
+                    onClick={fetchChildren}
+                  >
+                    <SyncOutlined
+                      fontSize="small"
+                      className={clsx(
+                        "refresh-icon",
+                        innerLoading && "loading"
+                      )}
+                    />
+                  </IconButton>
+                </Tooltip>
+              </Typography>
             )}
           </div>
           <List className="children-list">
