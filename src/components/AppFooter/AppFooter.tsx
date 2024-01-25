@@ -2,35 +2,31 @@ import { Button } from "@mui/material";
 import { useAppContext } from "../../context";
 import { AppFooterProps } from "./types";
 import { ReactElement, useCallback, useMemo } from "react";
-import { getContentTitle, getMayaResponse } from "../../general";
+import { getContentTitle, getTeacherResponse } from "../../general";
 import { isRelevantDate } from "../../api";
 
 export function AppFooter({
-  maya,
   childName,
   scheduled,
 }: AppFooterProps): ReactElement {
-  const { childId, setChildId } = useAppContext();
+  const { childId, setChildId, teacher } = useAppContext();
 
   const resetChild = useCallback(() => {
     setChildId(null);
   }, []);
 
   const isScheduled = useMemo(
-    () => isRelevantDate(maya?.schedule),
-    [maya?.schedule]
+    () => isRelevantDate(teacher?.schedule),
+    [teacher?.schedule]
   );
 
   const message = useMemo(() => {
     const count = getContentTitle(scheduled);
-    const response = getMayaResponse(maya?.schedule);
+    const response = getTeacherResponse(teacher?.schedule);
     return isScheduled ? `${count} ${response}` : response;
-  }, [isScheduled, scheduled, maya?.schedule]);
+  }, [isScheduled, scheduled, teacher?.schedule]);
 
-  const canSendMessage = useMemo(
-    () => childId === maya?.id || isScheduled,
-    [childId, maya?.id, isScheduled]
-  );
+  const canSendMessage = childId === teacher?.id || isScheduled;
 
   return (
     <div className="bottom-container">
@@ -46,8 +42,8 @@ export function AppFooter({
       )}
       {childId && (
         <Button variant="outlined" color="secondary" onClick={resetChild}>
-          {maya?.id === childId
-            ? "אני לא מאיה הגננת"
+          {teacher?.id === childId
+            ? `אני לא ${teacher?.name}`
             : `אנחנו לא ה${childName}`}
         </Button>
       )}

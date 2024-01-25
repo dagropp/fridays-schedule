@@ -73,12 +73,3 @@ button:hover {
     background-color: #f9f9f9;
   }
 }
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

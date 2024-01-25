@@ -1,9 +1,16 @@
 import { api, getNextFriday, isRelevantDate } from ".";
-import { CHILDREN_API, SCHEDULE_API } from "./contants";
-import { ChildrenResponse } from "./types";
+import { CHILDREN_API, METADATA_API, SCHEDULE_API } from "./constants";
+import { ChildrenResponse, Metadata, MetadataCompact } from "./types";
 
 export async function getChildren(): Promise<ChildrenResponse[]> {
   return await api.get(CHILDREN_API);
+}
+
+export async function getMetadata(
+  isPolling?: boolean
+): Promise<MetadataCompact | Metadata> {
+  const query = isPolling ? "polling=true" : "";
+  return await api.get(METADATA_API, query);
 }
 
 export async function toggleSchedule({ id, schedule }: ChildrenResponse) {

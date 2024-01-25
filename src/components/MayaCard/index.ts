@@ -1,1 +1,1 @@
-export * from "./MayaCard";
+export * from "./TeacherCard";

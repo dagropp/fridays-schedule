@@ -1,6 +1,8 @@
 import { ChildrenResponse, Gender, isRelevantDate } from "../api";
 import { ClsxClass } from "./types";
 
+const documentTitle = document.title;
+
 export function clsx(...classes: ClsxClass[]) {
   return classes.filter(Boolean).join(" ");
 }
@@ -18,8 +20,23 @@ export function getContentTitle(scheduled: ChildrenResponse[]) {
   }
 }
 
-export function getMayaResponse(schedule?: string) {
+export function getTeacherResponse(schedule?: string) {
   return isRelevantDate(schedule)
     ? "איזה כיף! נתראה בשישי 🥖🥖🥖"
     : "כרגע לא אפתח את הגן בשישי... 😓";
+}
+
+export function setNotificationTitle(name?: string) {
+  if (document.visibilityState === "hidden") {
+    let times = 0;
+    const interval = setInterval(() => {
+      times++;
+      document.title = times % 2 ? documentTitle : `🗨️ הודעה מ${name}`;
+    }, 1000);
+
+    document.onvisibilitychange = () => {
+      clearInterval(interval);
+      document.title = documentTitle;
+    };
+  }
 }

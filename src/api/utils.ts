@@ -1,4 +1,4 @@
-import { API_ROOT } from "./contants";
+import { API_ROOT } from "./constants";
 import { RequestType } from "./types";
 
 function getUrl(path: string) {
@@ -19,8 +19,8 @@ async function request<T extends object, U extends object>(
   return (await response.json()) as T;
 }
 
-async function get<T extends object>(path: string): Promise<T> {
-  return await request(path, "GET");
+async function get<T extends object>(path: string, query?: string): Promise<T> {
+  return await request(query ? `${path}/?${query}` : path, "GET");
 }
 
 async function post<T extends object, U extends object>(

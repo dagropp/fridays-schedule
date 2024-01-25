@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Gender, isRelevantDate, toggleSchedule } from "../../api";
+import { useAppContext } from "../../context";
 import "./styles.css";
 
 export function AddButton({
@@ -15,6 +16,7 @@ export function AddButton({
   onUpdate,
   onDeny,
 }: AddButtonProps): ReactElement | null {
+  const { teacher } = useAppContext();
   const [denied, setDenied] = useState(false);
 
   const toggle = useCallback(async () => {
@@ -31,8 +33,6 @@ export function AddButton({
     setDenied(true);
   }, [onDeny]);
 
-  const isMaya = useMemo(() => data.id === -1, [data.id]);
-
   const isScheduled = useMemo(
     () => isRelevantDate(data.schedule),
     [data.schedule]
@@ -43,15 +43,15 @@ export function AddButton({
   }, []);
 
   const message = useMemo(() => {
-    if (isMaya) {
+    if (data.id === teacher?.id) {
       return isScheduled
         ? "איזה כיף! נתראה בשישי 🥖🥖🥖"
-        : "תפתחי את הגן ביום שישי?";
+        : "יהיה גן ביום שישי?";
     } else if (data.gender === Gender.male) {
       return `${data.name} יבוא ביום שישי?`;
     }
     return `${data.name} תבוא ביום שישי?`;
-  }, [data.gender, data.name, isMaya, isScheduled]);
+  }, [data.gender, data.name, data.id, teacher?.id, isScheduled]);
 
   return denied ? null : (
     <Card raised className="add-card">

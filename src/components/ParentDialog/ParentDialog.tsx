@@ -14,7 +14,7 @@ import { useAppContext } from "../../context";
 import "./styles.css";
 
 export function ParentDialog({ data }: ParentDialogProps): ReactElement {
-  const { childId, setChildId } = useAppContext();
+  const { childId, setChildId, teacher } = useAppContext();
   const [open, setOpen] = useState(!childId);
 
   const handleChange = useCallback(
@@ -33,12 +33,12 @@ export function ParentDialog({ data }: ParentDialogProps): ReactElement {
           <InputLabel id="parent-dialog-label">מי אתם?</InputLabel>
           <Select onChange={handleChange} labelId="parent-dialog-label">
             <ListSubheader>צוות</ListSubheader>
-            <MenuItem value={-1} divider>
-              מאיה הגננת
+            <MenuItem value={teacher?.id} divider>
+              {teacher?.name}
             </MenuItem>
             <ListSubheader>הורים</ListSubheader>
             {data
-              .filter((child) => child.id !== -1)
+              .filter((child) => child.id !== teacher?.id)
               .map((child) => (
                 <MenuItem key={child.id} value={child.id}>
                   {child.name}

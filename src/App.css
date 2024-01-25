@@ -52,7 +52,3 @@
   justify-content: center;
   gap: 0.5rem;
 }
-
-.refresh-icon.loading {
-  animation: spin 0.5s infinite linear;
-}
